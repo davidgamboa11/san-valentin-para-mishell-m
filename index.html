@@ -231,7 +231,7 @@
 </head>
 
 <body>
-  <audio id="musica" src="nombre_de_tu_cancion.mp3" preload="auto"></audio>
+  <audio id="musica" src="./cancion.mp3" preload="auto" loop></audio>>
 
   <div id="screen1" class="screen active" onclick="startApp()">
     <div class="tap-chip">
@@ -283,16 +283,13 @@
     }
 
     function startApp(){
-      audio.play().catch(() => console.log("Clic requerido para audio"));
-      showScreen('screen2');
-
-      setTimeout(() => {
-        document.getElementById('flower').classList.add('flower-grow');
-      }, 250);
-
-      // lluvia de corazones para todo el sitio (incluye carta final)
-      createRain();
-    }
+  audio.play().catch(() => console.log("Clic requerido para audio"));
+  showScreen('screen2');
+  setTimeout(() => {
+    document.getElementById('flower').classList.add('flower-grow');
+  }, 250);
+  createRain();
+}
 
     // ✅ Textos (introducción + 4 frases)
     const frases = [
@@ -396,3 +393,4 @@
   </script>
 </body>
 </html>
+
