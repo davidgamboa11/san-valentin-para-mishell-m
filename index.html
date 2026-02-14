@@ -373,7 +373,9 @@ btnAudio.addEventListener("click", () => {
             i++;
           }, 420);
 
-          setTimeout(rotate, 4200);
+          const DURACION_FRASE = 8000; // 8 segundos
+          
+          setTimeout(rotate, DURACION_FRASE);
         }else{
           // ✅ La carta final se queda con fondo negro (screen4),
           // y la lluvia de corazones sigue igual.
@@ -427,5 +429,6 @@ btnAudio.addEventListener("click", () => {
   </script>
 </body>
 </html>
+
 
 
