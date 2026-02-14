@@ -231,7 +231,20 @@
 </head>
 
 <body>
-  <audio id="musica" src="./cancion.mp3" preload="auto" loop></audio>>
+  <audio id="musica" src="./cancion.mp3" preload="auto" loop playsinline></audio>
+
+  <button id="btn-audio" style="
+  position:fixed; left:50%; top:18px; transform:translateX(-50%);
+  z-index:9999; padding:10px 14px; border-radius:999px;
+  border:1px solid rgba(255,255,255,0.25);
+  background:rgba(0,0,0,0.45); color:#fff;
+  backdrop-filter: blur(8px);
+  font-family: 'Quicksand', sans-serif;
+  display:none; cursor:pointer;
+">
+  🔊 Activar música
+</button>
+
 
   <div id="screen1" class="screen active" onclick="startApp()">
     <div class="tap-chip">
@@ -272,6 +285,24 @@
 
   <script>
     const audio = document.getElementById('musica');
+const btnAudio = document.getElementById('btn-audio');
+
+async function tryPlayAudio() {
+  try {
+    audio.muted = false;
+    audio.volume = 0.9;
+    await audio.play();
+    // Si logró reproducir, ocultamos el botón
+    btnAudio.style.display = "none";
+  } catch (e) {
+    // Si el navegador bloquea, mostramos botón para que la persona lo active
+    btnAudio.style.display = "block";
+  }
+}
+
+btnAudio.addEventListener("click", () => {
+  tryPlayAudio();
+});
 
     function showScreen(id){
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -282,14 +313,17 @@
       urls.forEach(u => { const img = new Image(); img.src = u; });
     }
 
-    function startApp(){
-  audio.play().catch(() => console.log("Clic requerido para audio"));
+    function startApp() {
+  tryPlayAudio(); // 👈 en vez de audio.play()
   showScreen('screen2');
+
   setTimeout(() => {
     document.getElementById('flower').classList.add('flower-grow');
   }, 250);
+
   createRain();
 }
+
 
     // ✅ Textos (introducción + 4 frases)
     const frases = [
@@ -393,4 +427,5 @@
   </script>
 </body>
 </html>
+
 
