@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Para Mi Persona Favorita ❤️</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --neon-pink:#ff0055;
+      --hot-pink:#ff4d6d;
+      --dark-bg:#0d0005;
+      --glass: rgba(0,0,0,0.55);
+      --border: rgba(255,0,85,0.85);
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      margin:0; padding:0; height:100%;
+      background: var(--dark-bg);
+      color:#fff;
+      font-family:'Quicksand', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      overflow:hidden;
+    }
+
+    .screen{
+      position:absolute; inset:0;
+      display:none;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      padding:24px;
+    }
+    .active{ display:flex; animation: fadeIn .8s ease forwards; }
+    @keyframes fadeIn{ from{opacity:0; transform: translateY(8px);} to{opacity:1; transform: translateY(0);} }
+
+    .hint{ margin-top:18px; opacity:.78; letter-spacing:.5px; font-size:.95rem; }
+    .title{
+      margin:0;
+      font-weight:700;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      font-size:1.05rem;
+      opacity:.92;
+    }
+    .soft-glow{ text-shadow: 0 0 14px rgba(255,0,85,0.55); }
+
+    /* Screen 1 */
+    #screen1{
+      cursor:pointer;
+      background:
+        radial-gradient(circle at 30% 25%, rgba(255,0,85,0.25) 0%, transparent 45%),
+        radial-gradient(circle at 70% 65%, rgba(255,77,109,0.18) 0%, transparent 45%),
+        radial-gradient(circle, #2a0010 0%, #000 65%);
+    }
+    .pulse-heart{
+      font-size:88px;
+      filter: drop-shadow(0 0 22px var(--neon-pink));
+      animation: pulse 1.15s ease-in-out infinite;
+      margin-top:10px;
+      user-select:none;
+    }
+    @keyframes pulse{ 0%{transform:scale(1)} 50%{transform:scale(1.14)} 100%{transform:scale(1)} }
+
+    .tap-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 18px;
+      border:1px solid rgba(255,255,255,0.18);
+      background: rgba(0,0,0,0.25);
+      border-radius:999px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+    }
+
+    /* Screen 2 */
+    #screen2{
+      background:
+        radial-gradient(circle at 50% 35%, rgba(255,0,85,0.20) 0%, transparent 40%),
+        linear-gradient(180deg, #000 0%, #070009 100%);
+    }
+    .glow-text{
+      color: var(--neon-pink);
+      text-shadow: 0 0 14px rgba(255,0,85,0.65);
+      margin:0 0 18px 0;
+      font-size:2.1rem;
+      font-weight:700;
+    }
+    .flower-bundle{
+      font-size:120px;
+      cursor:pointer;
+      transition: transform .4s ease, filter .4s ease;
+      filter: drop-shadow(0 0 18px rgba(255,77,109,0.7));
+      user-select:none;
+    }
+    .flower-bundle:hover{ transform: translateY(-2px) scale(1.03); }
+    .flower-grow{ animation: grow 2.2s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards; }
+    @keyframes grow{ from{ transform: scale(0) rotate(-18deg);} to{ transform: scale(1.18) rotate(0deg);} }
+
+    /* Screen 3 (frases con fotos) */
+    #screen3{
+      background-size:cover;
+      background-position:center;
+      transition: background-image 1s ease-in-out;
+    }
+    .overlay{
+      position:absolute; inset:0;
+      background: radial-gradient(circle at 50% 35%, rgba(0,0,0,0.25), rgba(0,0,0,0.78));
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:22px;
+    }
+    .phrase-box{
+      border:2px solid var(--border);
+      border-radius:26px;
+      padding:34px 28px;
+      background: var(--glass);
+      backdrop-filter: blur(10px);
+      box-shadow:
+        0 0 0 1px rgba(255,0,85,0.25) inset,
+        0 14px 50px rgba(0,0,0,0.6),
+        0 0 26px rgba(255,0,85,0.35);
+      max-width: min(760px, 92vw);
+      animation: slideUp .7s ease;
+    }
+    @keyframes slideUp{ from{ transform: translateY(22px); opacity:0;} to{ transform: translateY(0); opacity:1;} }
+
+    .phrase-box h2{
+      margin:0;
+      font-family:'Dancing Script', cursive;
+      font-size: clamp(2.0rem, 4.2vw, 3.0rem);
+      line-height:1.2;
+    }
+
+    /* Screen 4 (fondo negro con lluvia de corazones) */
+    #screen4{
+      background:
+        radial-gradient(circle at 40% 30%, rgba(255,0,85,0.20) 0%, transparent 45%),
+        radial-gradient(circle at 70% 70%, rgba(255,77,109,0.16) 0%, transparent 45%),
+        linear-gradient(180deg, #050006 0%, #000 100%);
+    }
+    .final-title{
+      color: var(--hot-pink);
+      text-shadow: 0 0 14px rgba(255,77,109,0.55);
+      margin:0 0 14px 0;
+      font-size:1.6rem;
+      font-weight:700;
+    }
+
+    .envelope-container{
+      position:relative;
+      width:320px;
+      height:210px;
+      margin-top:26px;
+      cursor:pointer;
+      user-select:none;
+      filter: drop-shadow(0 16px 30px rgba(0,0,0,0.55));
+    }
+    .envelope{
+      position:absolute; inset:0;
+      background: linear-gradient(135deg, #ff6f91 0%, #ff8fab 100%);
+      border-radius:16px;
+      z-index:5;
+      overflow:hidden;
+    }
+    .flap{
+      position:absolute; top:-2px; left:0;
+      width:0; height:0;
+      border-top:120px solid #ff4d6d;
+      border-left:160px solid transparent;
+      border-right:160px solid transparent;
+      transform-origin: top;
+      z-index:10;
+      transition: transform 0.65s ease;
+      filter: drop-shadow(0 8px 10px rgba(0,0,0,0.25));
+    }
+    .pocket{
+      position:absolute; inset:0;
+      background: linear-gradient(135deg, #ff97b0 0%, #ffb3c1 100%);
+      z-index:8;
+      clip-path: polygon(0 0, 15% 100%, 85% 100%, 100% 0, 100% 100%, 0 100%);
+      border-radius:16px;
+    }
+    .letter-content{
+      position:absolute;
+      bottom:8px; left:12px;
+      width: calc(100% - 24px);
+      background:#fff;
+      color:#5c0d1e;
+      padding:18px 16px;
+      text-align:center;
+      z-index:6;
+      transition: transform 0.85s ease;
+      font-family:'Dancing Script', cursive;
+      font-size:1.55rem;
+      border-radius:12px;
+      box-shadow: 0 10px 18px rgba(0,0,0,0.12);
+      min-height:110px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .opened .flap{ transform: rotateX(180deg); z-index:1; }
+    .opened .letter-content{ transform: translateY(-165px); z-index:15; }
+
+    /* Hearts rain */
+    .heart{
+      position:absolute;
+      color: var(--neon-pink);
+      pointer-events:none;
+      z-index:100;
+      animation: fall linear forwards;
+      filter: drop-shadow(0 0 10px rgba(255,0,85,0.35));
+      user-select:none;
+    }
+    @keyframes fall{ to{ transform: translateY(110vh) rotate(360deg);} }
+
+    @media (max-width:380px){
+      .envelope-container{ width:290px; height:200px; }
+      .flap{ border-top-width:112px; border-left-width:145px; border-right-width:145px; }
+      .letter-content{ font-size:1.45rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <audio id="musica" src="nombre_de_tu_cancion.mp3" preload="auto"></audio>
+
+  <div id="screen1" class="screen active" onclick="startApp()">
+    <div class="tap-chip">
+      <span class="title soft-glow">TOCA PARA ABRIR</span>
+      <span aria-hidden="true">✨</span>
+    </div>
+    <div class="pulse-heart" aria-hidden="true">💘</div>
+  </div>
+
+  <div id="screen2" class="screen">
+    <h1 class="glow-text">Feliz San Valentín 💖</h1>
+    <div id="flower" class="flower-bundle" onclick="startPhrases()">💐</div>
+    <p class="hint">Presiona las flores...</p>
+  </div>
+
+  <div id="screen3" class="screen">
+    <div class="overlay">
+      <div class="phrase-box" role="dialog" aria-live="polite">
+        <h2 id="text-display"></h2>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen4" class="screen">
+    <h2 class="final-title">¿Quieres leer el último mensaje?</h2>
+
+    <div class="envelope-container" id="finalEnvelope" onclick="openLetter()">
+      <div class="flap"></div>
+      <div class="envelope"></div>
+      <div class="letter-content">
+        <p id="final-msg" style="margin:0;"></p>
+      </div>
+      <div class="pocket"></div>
+    </div>
+
+    <p class="hint">Da clic al sobre</p>
+  </div>
+
+  <script>
+    const audio = document.getElementById('musica');
+
+    function showScreen(id){
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function preloadImages(urls){
+      urls.forEach(u => { const img = new Image(); img.src = u; });
+    }
+
+    function startApp(){
+      audio.play().catch(() => console.log("Clic requerido para audio"));
+      showScreen('screen2');
+
+      setTimeout(() => {
+        document.getElementById('flower').classList.add('flower-grow');
+      }, 250);
+
+      // lluvia de corazones para todo el sitio (incluye carta final)
+      createRain();
+    }
+
+    // ✅ Textos (introducción + 4 frases)
+    const frases = [
+      "Tengo algunas cosas que decirte...",
+      "Primero, gracias por existir. No tienes idea de cómo tu sola presencia ilumina hasta mis días más grises.",
+      "Eres una maravilla de mujer. Me asombra la fuerza, la inteligencia y la luz que llevas contigo a todas partes.",
+      "Eres hermosa en todas tus formas, y no me refiero solo a lo físico (que me encanta), sino a esa alma tan bonita que tienes.",
+      "Porque tu cabello, tu sonrisa y tú me tienen completamente perdido... 😍 Eres, sin duda, la causa de mi euforia."
+    ];
+
+    // ✅ Un fondo DIFERENTE para CADA frase (5 fondos = 5 textos)
+    // Se usa "sig=" para evitar que el navegador repita la misma imagen.
+    const fondos = [
+      "https://source.unsplash.com/1600x900/?valentine,romantic,heart&sig=1",
+      "https://source.unsplash.com/1600x900/?roses,valentine,flowers&sig=2",
+      "https://source.unsplash.com/1600x900/?couple,love,valentine&sig=3",
+      "https://source.unsplash.com/1600x900/?pink,hearts,romantic&sig=4",
+      "https://source.unsplash.com/1600x900/?romantic,lights,love&sig=5"
+    ];
+
+    preloadImages(fondos);
+
+    function startPhrases(){
+      showScreen('screen3');
+
+      let i = 0;
+      const textDisplay = document.getElementById('text-display');
+      const screen3 = document.getElementById('screen3');
+
+      // Asegura que SIEMPRE haya imagen (si algo falla, cae a la primera)
+      function setBackgroundSafe(url){
+        screen3.style.backgroundImage =
+          `linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.75)), url('${url}')`;
+      }
+
+      setBackgroundSafe(fondos[0]);
+
+      function rotate(){
+        if(i < frases.length){
+          const bg = fondos[i] || fondos[0];
+          setBackgroundSafe(bg);
+
+          textDisplay.style.opacity = 0;
+          setTimeout(() => {
+            textDisplay.innerHTML = frases[i];
+            textDisplay.style.opacity = 1;
+            i++;
+          }, 420);
+
+          setTimeout(rotate, 4200);
+        }else{
+          // ✅ La carta final se queda con fondo negro (screen4),
+          // y la lluvia de corazones sigue igual.
+          showScreen('screen4');
+        }
+      }
+
+      rotate();
+    }
+
+    // ✅ Mensaje final + fix (no repetir si vuelven a dar clic)
+    let letterOpened = false;
+
+    function openLetter(){
+      if(letterOpened) return;
+      letterOpened = true;
+
+      const env = document.getElementById('finalEnvelope');
+      env.classList.add('opened');
+
+      const finalEl = document.getElementById('final-msg');
+      finalEl.innerHTML = "";
+
+      const finalTxt = "Ojalá no existiera la distancia para pedirte, mirándote a los ojos, que seas mi San Valentín. ❤️ Y asi, deje de ser un día mas para ti";
+      let j = 0;
+
+      function typeFinal(){
+        if(j < finalTxt.length){
+          finalEl.innerHTML += finalTxt.charAt(j);
+          j++;
+          setTimeout(typeFinal, 55);
+        }
+      }
+
+      setTimeout(typeFinal, 900);
+    }
+
+    function createRain(){
+      setInterval(() => {
+        const h = document.createElement('div');
+        h.className = 'heart';
+        h.innerHTML = Math.random() > 0.5 ? '❤️' : '💖';
+        h.style.left = (Math.random() * 100) + 'vw';
+        h.style.top = '-10%';
+        h.style.fontSize = (Math.random() * 18 + 14) + 'px';
+        h.style.animationDuration = (Math.random() * 3 + 2.2) + 's';
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 5200);
+      }, 280);
+    }
+  </script>
+</body>
+</html>
